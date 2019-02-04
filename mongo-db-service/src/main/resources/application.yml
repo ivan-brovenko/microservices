@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: istore-db-mongo
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: mongo
+      repositories:
+        enabled: true
+
+server:
+  port: 8083
