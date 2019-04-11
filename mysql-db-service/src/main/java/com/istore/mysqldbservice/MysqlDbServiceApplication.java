@@ -1,5 +1,6 @@
 package com.istore.mysqldbservice;
 
+import com.istore.mysqldbservice.model.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
