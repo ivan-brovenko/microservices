@@ -10,7 +10,7 @@ public class FileLogManager implements LogManager {
     private FileLogManager() {
     }
 
-    public static FileLogManager getLogManager() {
+    public synchronized static FileLogManager getLogManager() {
         if (Objects.isNull(logManager)) {
             logManager = new FileLogManager();
         }

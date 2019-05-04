@@ -1,4 +1,4 @@
-package com.istore.mysqldbservice.repository.impl;
+package com.istore.mysqldbservice.repository.impl.jpa;
 
 import com.istore.mysqldbservice.model.User;
 import com.istore.mysqldbservice.repository.UserRepository;
@@ -6,18 +6,17 @@ import com.istore.mysqldbservice.utils.LogManager;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Repository
-@Transactional
-public class UserRepositoryImpl implements UserRepository {
 
-    @PersistenceContext
-    public EntityManager entityManager;
+public class UserRepositoryJPAImpl implements UserRepository {
+
 
     private List<LogManager> logManagers = new ArrayList<>();
 
@@ -32,7 +31,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findUserByEmailAndPassword(String email, String password) {
 
-        User user =  entityManager
+        User user =  entityManager()
                 .createQuery("SELECT u from User where u.email = :email" +
                         " AND u.password = :password", User.class)
                 .getSingleResult();
@@ -42,18 +41,25 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User user) {
+        logManagers.forEach(logManager -> logManager.log("Start "));
+
+        entityManager().persist(user);
         logManagers.forEach(logManager -> logManager.log("User:"+user.getEmail()+" added"));
 
-        entityManager.persist(user);
         return user;
     }
 
     @Override
     public List<User> findAll() {
 
-        List<User> users =  (List<User>) entityManager.createQuery("select u from User")
+        List<User> users =  (List<User>) entityManager().createQuery("select u from User")
                 .getResultStream().collect(Collectors.toList());
         logManagers.forEach(logManager -> logManager.log("Users: "+users));
         return users;
+    }
+
+    private static EntityManager entityManager(){
+        return Persistence.createEntityManagerFactory("emf")
+                .createEntityManager();
     }
 }

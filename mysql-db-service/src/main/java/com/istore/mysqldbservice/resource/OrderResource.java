@@ -1,5 +1,6 @@
 package com.istore.mysqldbservice.resource;
 
+import com.istore.mysqldbservice.factory.Context;
 import com.istore.mysqldbservice.model.Order;
 import com.istore.mysqldbservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,15 @@ import java.util.List;
 @RequestMapping("/istore/orders")
 public class OrderResource {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private Context context;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+        return context.getFactory().getOrderRepository().findAll();
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Order addOrder(Order order) {
-        return orderRepository.save(order);
+        return context.getFactory().getOrderRepository().save(order);
     }
 }

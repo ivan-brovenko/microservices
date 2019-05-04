@@ -17,10 +17,13 @@ public class User {
     private String username;
     private String password;
 
+    private String phone;
+
     private User(Builder builder){
         this.email = builder.email;
         this.username = builder.username;
         this.password = builder.password;
+        this.phone = builder.phone;
     }
 
     @ManyToOne
@@ -35,24 +38,24 @@ public class User {
         private String email;
         private String username;
         private String password;
+        private String phone;
 
-        public Builder email(String email) {
+        public Builder (String email, String username, String password) {
             this.email = email;
-            return this;
-        }
-
-        public Builder username(String username){
             this.username = username;
-            return this;
+            this.password = password;
         }
 
-        public Builder password(String password){
-            this.password = password;
+        public Builder phone(String phone){
+            this.phone = phone;
             return this;
         }
 
         public User build(){
-            return new User(this);
+            if (this.password!=null) {
+                return new User(this);
+            }
+            throw new RuntimeException();
         }
     }
 }

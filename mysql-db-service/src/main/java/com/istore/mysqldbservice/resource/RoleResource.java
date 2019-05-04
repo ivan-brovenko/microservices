@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/istore/roles")
 public class RoleResource {
 
-    @Autowired
     private RoleRepository roleRepository;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)

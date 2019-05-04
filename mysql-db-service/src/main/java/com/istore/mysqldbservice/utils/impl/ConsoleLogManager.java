@@ -10,7 +10,7 @@ public class ConsoleLogManager implements LogManager {
     private ConsoleLogManager() {
     }
 
-    public static ConsoleLogManager getLogManager() {
+    public synchronized static ConsoleLogManager getLogManager() {
         if (Objects.isNull(consoleLogManager)) {
             consoleLogManager = new ConsoleLogManager();
         }

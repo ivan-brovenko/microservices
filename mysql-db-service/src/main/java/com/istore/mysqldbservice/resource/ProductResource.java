@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/istore/products")
 public class ProductResource {
 
-    @Autowired
     private ProductRepository productRepository;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
