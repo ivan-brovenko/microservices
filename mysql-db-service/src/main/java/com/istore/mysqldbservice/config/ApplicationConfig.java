@@ -7,7 +7,9 @@ import com.istore.mysqldbservice.factory.impl.NativeQueryFactory;
 import com.istore.mysqldbservice.repository.impl.jpa.UserRepositoryJPAImpl;
 import com.istore.mysqldbservice.utils.impl.ConsoleLogManager;
 import com.istore.mysqldbservice.utils.impl.FileLogManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -23,6 +25,9 @@ import java.util.Properties;
 
 @Configuration
 public class ApplicationConfig {
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
 //    @Bean
 //    public UserRepositoryJPAImpl userRepository(){
@@ -59,7 +64,7 @@ public class ApplicationConfig {
     public Context context(){
         AbstractRepositoryFactory jpaFactory = new JPAFactory();
         AbstractRepositoryFactory jdbcFactory = new NativeQueryFactory();
-
+        ((NativeQueryFactory) jdbcFactory).setApplicationContext(applicationContext);
         Context context = new Context(jdbcFactory);
         return context;
     }

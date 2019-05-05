@@ -1,5 +1,6 @@
 package com.istore.mysqldbservice.repository.impl.jpa;
 
+import com.istore.mysqldbservice.memento.Storage;
 import com.istore.mysqldbservice.model.User;
 import com.istore.mysqldbservice.repository.UserRepository;
 import com.istore.mysqldbservice.utils.LogManager;
@@ -56,6 +57,16 @@ public class UserRepositoryJPAImpl implements UserRepository {
                 .getResultStream().collect(Collectors.toList());
         logManagers.forEach(logManager -> logManager.log("Users: "+users));
         return users;
+    }
+
+    @Override
+    public void rollback(String userEmail) {
+
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return null;
     }
 
     private static EntityManager entityManager(){

@@ -1,6 +1,7 @@
 package com.istore.mysqldbservice.repository;
 
 
+import com.istore.mysqldbservice.memento.Storage;
 import com.istore.mysqldbservice.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,9 @@ public interface UserRepository {
     User save(User user);
 
     List<User> findAll();
+
+    void rollback(String userEmail);
+
+    User updateUser(User user);
+
 }

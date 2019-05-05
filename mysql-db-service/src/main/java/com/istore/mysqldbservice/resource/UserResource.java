@@ -34,4 +34,14 @@ public class UserResource {
         return context.getFactory().getUserRepository().save(user);
     }
 
+    @RequestMapping(value = "/rollback/{email}", method = RequestMethod.POST)
+    public void rollback(@PathVariable("email") String email) {
+        context.getFactory().getUserRepository().rollback(email);
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public void update(@RequestBody User user) {
+        context.getFactory().getUserRepository().updateUser(user);
+    }
+
 }
