@@ -16,12 +16,14 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import javax.security.auth.login.Configuration;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 public class UserRepositoryJDBCImpl implements UserRepository {
@@ -75,15 +77,32 @@ public class UserRepositoryJDBCImpl implements UserRepository {
 
     @Override
     public void rollback(String userEmail) {
-        Storage storage = applicationContext.getBean(Storage.class);
-        UserSnapshot userSnapshot = storage.getLastSnapshotByUserEmail(userEmail);
-        System.out.println(storage);
-        System.out.println(userSnapshot);
-        System.out.println(userEmail);
-        User user = new User();
-        user.setEmail(userEmail);
-        user.load(userSnapshot);
-        executeUpdateUser(user);
+        User userFromDB = findUserByEmail(userEmail);
+        if (Objects.nonNull(userFromDB)) {
+            Storage storage = applicationContext.getBean(Storage.class);
+            UserSnapshot userSnapshot = storage.getLastSnapshotByUserEmail(userEmail);
+            if (Objects.nonNull(userSnapshot)) {
+                User user = new User();
+                user.setEmail(userEmail);
+                user.load(userSnapshot);
+                executeUpdateUser(user);
+            }
+        }
+    }
+
+    @Override
+    public void rollbackForward(String userEmail) {
+        User userFromDB = findUserByEmail(userEmail);
+        if (Objects.nonNull(userFromDB)) {
+            Storage storage = applicationContext.getBean(Storage.class);
+            UserSnapshot userSnapshot = storage.forward(userEmail);
+            if (Objects.nonNull(userSnapshot)) {
+                User user = new User();
+                user.setEmail(userEmail);
+                user.load(userSnapshot);
+                executeUpdateUser(user);
+            }
+        }
     }
 
     @Override
@@ -109,6 +128,8 @@ public class UserRepositoryJDBCImpl implements UserRepository {
             }
         } catch (SQLException e) {
             throw new ApplicationException("Can't find user by email", e);
+        } finally {
+            ConnectionPool.getInstance().release(connection);
         }
         return null;
     }

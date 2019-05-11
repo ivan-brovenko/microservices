@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -15,9 +16,11 @@ public class User {
 
     @Id
     private String email;
+
     private String username;
     private String password;
 
+    @Transient
     private String phone;
 
     private User(Builder builder) {
@@ -35,10 +38,12 @@ public class User {
         return userSnapshot;
     }
 
-    public void load(UserSnapshot userSnapshot){
-        username = userSnapshot.getUsername();
-        password = userSnapshot.getPassword();
-        phone = userSnapshot.getPhone();
+    public void load(UserSnapshot userSnapshot) {
+        if (Objects.nonNull(userSnapshot)) {
+            username = userSnapshot.getUsername();
+            password = userSnapshot.getPassword();
+            phone = userSnapshot.getPhone();
+        }
     }
 
     @ManyToOne

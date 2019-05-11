@@ -20,4 +20,6 @@ public interface UserRepository {
 
     User updateUser(User user);
 
+    void rollbackForward(String userEmail);
+
 }

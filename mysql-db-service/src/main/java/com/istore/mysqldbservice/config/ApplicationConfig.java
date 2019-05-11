@@ -4,24 +4,10 @@ import com.istore.mysqldbservice.factory.AbstractRepositoryFactory;
 import com.istore.mysqldbservice.factory.Context;
 import com.istore.mysqldbservice.factory.impl.JPAFactory;
 import com.istore.mysqldbservice.factory.impl.NativeQueryFactory;
-import com.istore.mysqldbservice.repository.impl.jpa.UserRepositoryJPAImpl;
-import com.istore.mysqldbservice.utils.impl.ConsoleLogManager;
-import com.istore.mysqldbservice.utils.impl.FileLogManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.datasource.DelegatingDataSource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-
-import javax.persistence.PersistenceContext;
-import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 public class ApplicationConfig {
@@ -52,31 +38,31 @@ public class ApplicationConfig {
 //        return em;
 //    }
 
-    @Bean
-    public Properties additional(){
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2dll.auto","create-drop");
-        properties.setProperty("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
-        return properties;
-    }
+//    @Bean
+//    public Properties additional(){
+//        Properties properties = new Properties();
+//        properties.setProperty("hibernate.hbm2dll.auto","create-drop");
+//        properties.setProperty("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
+//        return properties;
+//    }
 
     @Bean
     public Context context(){
         AbstractRepositoryFactory jpaFactory = new JPAFactory();
         AbstractRepositoryFactory jdbcFactory = new NativeQueryFactory();
-        ((NativeQueryFactory) jdbcFactory).setApplicationContext(applicationContext);
-        Context context = new Context(jdbcFactory);
+        jpaFactory.setApplicationContext(applicationContext);
+        Context context = new Context(jpaFactory);
         return context;
     }
 
-    @Bean
-    @Primary
-    public DataSource dataSource(){
-        return DataSourceBuilder.create()
-        .driverClassName("com.mysql.jdbc.Driver")
-        .url("jdbc:mysql://localhost:3306/istore_db")
-        .username("root")
-        .password("rootroot").build();
-    }
+//    @Bean
+//    @Primary
+//    public DataSource dataSource(){
+//        return DataSourceBuilder.create()
+//        .driverClassName("com.mysql.jdbc.Driver")
+//        .url("jdbc:mysql://localhost:3306/istore_db")
+//        .username("root")
+//        .password("rootroot").build();
+//    }
 
 }
