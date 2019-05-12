@@ -26,4 +26,9 @@ public class ProductResource {
     public Product addProduct(@RequestBody Product product) {
         return productRepository.save(product);
     }
+
+    @RequestMapping(value = "/addAll", method = RequestMethod.POST)
+    public List<Product> addAllProducts(@RequestBody List<Product> products) {
+        return productRepository.saveAll(products);
+    }
 }

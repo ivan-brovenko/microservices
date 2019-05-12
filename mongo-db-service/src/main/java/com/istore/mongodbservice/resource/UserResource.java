@@ -35,4 +35,9 @@ public class UserResource {
         return userRepository.save(user);
     }
 
+    @RequestMapping(value = "/addAll", method = RequestMethod.POST)
+    public List<User> addAllUsers(@RequestBody List<User> users) {
+        return userRepository.saveAll(users);
+    }
+
 }

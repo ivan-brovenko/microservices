@@ -3,6 +3,7 @@ package com.istore.mysqldbservice.resource;
 import com.istore.mysqldbservice.model.Product;
 import com.istore.mysqldbservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/istore/products")
 public class ProductResource {
 
+    @Autowired
     private ProductRepository productRepository;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -23,5 +25,10 @@ public class ProductResource {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Product addProduct(Product product) {
         return productRepository.save(product);
+    }
+
+    @RequestMapping(value = "/addAll", method = RequestMethod.POST)
+    public List<Product> addAllProducts(@RequestBody List<Product> products) {
+        return productRepository.saveAll(products);
     }
 }

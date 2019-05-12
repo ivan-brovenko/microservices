@@ -2,7 +2,6 @@ package com.istore.mysqldbservice.resource;
 
 import com.istore.mysqldbservice.factory.Context;
 import com.istore.mysqldbservice.model.User;
-import com.istore.mysqldbservice.repository.UserRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +46,11 @@ public class UserResource {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public void update(@RequestBody User user) {
         context.getFactory().getUserRepository().updateUser(user);
+    }
+
+    @RequestMapping(value = "/addAll", method = RequestMethod.POST)
+    public List<User> addAllUsers(@RequestBody List<User> users) {
+        return context.getFactory().getUserRepository().saveAll(users);
     }
 
 }

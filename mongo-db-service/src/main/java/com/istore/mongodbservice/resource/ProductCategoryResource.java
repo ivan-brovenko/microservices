@@ -26,4 +26,9 @@ public class ProductCategoryResource {
     public Category addCategory(@RequestBody Category category) {
         return productCategoryRepository.save(category);
     }
+
+    @RequestMapping(value = "/addAll", method = RequestMethod.POST)
+    public List<Category> addAllCategories(@RequestBody List<Category> categories) {
+        return productCategoryRepository.saveAll(categories);
+    }
 }

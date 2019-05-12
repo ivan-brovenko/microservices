@@ -98,6 +98,12 @@ public class UserRepositoryJPAImpl implements UserRepository {
     }
 
     @Override
+    public List<User> saveAll(List<User> users) {
+        users.forEach(user -> entityManager.persist(user));
+        return users;
+    }
+
+    @Override
     public User updateUser(User user) {
         User formerUser = findUserByEmail(user.getEmail());
         storage.addSnapshot(formerUser.save(), user.getEmail());

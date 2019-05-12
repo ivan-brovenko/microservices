@@ -106,6 +106,11 @@ public class UserRepositoryJDBCImpl implements UserRepository {
     }
 
     @Override
+    public List<User> saveAll(List<User> users) {
+        return null;
+    }
+
+    @Override
     public User updateUser(User user) {
         Storage storage = applicationContext.getBean(Storage.class);
         System.out.println(user);

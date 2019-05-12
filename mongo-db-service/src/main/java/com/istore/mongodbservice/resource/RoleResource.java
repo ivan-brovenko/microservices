@@ -26,4 +26,9 @@ public class RoleResource {
     public Role addRole(@RequestBody Role role) {
         return roleRepository.save(role);
     }
+
+    @RequestMapping(value = "/addAll", method = RequestMethod.POST)
+    public List<Role> addAllRole(@RequestBody List<Role> roles) {
+        return roleRepository.saveAll(roles);
+    }
 }

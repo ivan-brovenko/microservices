@@ -22,4 +22,6 @@ public interface UserRepository {
 
     void rollbackForward(String userEmail);
 
+    List<User> saveAll(List<User> users);
+
 }

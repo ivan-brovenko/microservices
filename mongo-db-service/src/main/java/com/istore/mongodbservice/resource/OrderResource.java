@@ -27,4 +27,9 @@ public class OrderResource {
     public Order addOrder(@RequestBody Order order) {
         return orderRepository.save(order);
     }
+
+    @RequestMapping(value = "/addAll", method = RequestMethod.POST)
+    public List<Order> addAllOrders(@RequestBody List<Order> orders) {
+        return orderRepository.saveAll(orders);
+    }
 }
