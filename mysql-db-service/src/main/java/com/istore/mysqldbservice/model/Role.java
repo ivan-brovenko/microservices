@@ -2,6 +2,7 @@ package com.istore.mysqldbservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "userSet")
 @ToString(exclude = "userSet")
 @NoArgsConstructor
+@Document
 public class Role {
 
     @Id

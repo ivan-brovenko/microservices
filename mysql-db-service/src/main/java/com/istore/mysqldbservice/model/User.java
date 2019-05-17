@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.istore.mysqldbservice.memento.UserSnapshot;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -12,6 +14,7 @@ import java.util.Set;
 @Data
 @Entity
 @NoArgsConstructor
+@Document
 public class User {
 
     @Id
@@ -20,7 +23,6 @@ public class User {
     private String username;
     private String password;
 
-    @Transient
     private String phone;
 
     private User(Builder builder) {
