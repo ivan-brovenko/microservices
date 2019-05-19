@@ -5,7 +5,9 @@ import com.istore.mysqldbservice.memento.UserSnapshot;
 import com.istore.mysqldbservice.model.User;
 import com.istore.mysqldbservice.repository.UserRepository;
 import com.istore.mysqldbservice.utils.LogManager;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -101,6 +103,61 @@ public class UserRepositoryJPAImpl implements UserRepository {
     public List<User> saveAll(List<User> users) {
         users.forEach(user -> entityManager.persist(user));
         return users;
+    }
+
+    @Override
+    public void removeAll() {
+
+    }
+
+    @Override
+    public List<User> getUsersInfoWithoutRoles() {
+        return null;
+    }
+
+    @Override
+    public List<User> findUsersByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public Document groupBy(String field) {
+        return null;
+    }
+
+    @Override
+    public List<User> getSortedUsers(String field) {
+        return null;
+    }
+
+    @Override
+    public List<User> getLimitedUsers(String limit) {
+        return null;
+    }
+
+    @Override
+    public List<User> getUsersInfoWithoutRolesNA() {
+        return null;
+    }
+
+    @Override
+    public List<User> findUsersByUsernameNA(String username) {
+        return null;
+    }
+
+    @Override
+    public Document groupByNA(String field) {
+        return null;
+    }
+
+    @Override
+    public List<User> getSortedUsersNA(String field) {
+        return null;
+    }
+
+    @Override
+    public List<User> getLimitedUsersNA(String limit) {
+        return null;
     }
 
     @Override
