@@ -34,7 +34,7 @@ public interface UserRepository {
 
     Document groupBy(String field);
 
-    List<User> getSortedUsers(String field);
+    List<User> getSortedUsersByEmail();
 
     List<User> getLimitedUsers(String limit);
 
@@ -44,7 +44,7 @@ public interface UserRepository {
 
     Document groupByNA(String field);
 
-    List<User> getSortedUsersNA(String field);
+    List<User> getSortedUsersByEmailNA();
 
     List<User> getLimitedUsersNA(String limit);
 

@@ -13,10 +13,6 @@ import org.bson.Document;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import javax.print.Doc;
 import javax.security.auth.login.Configuration;
@@ -134,9 +130,10 @@ public class UserRepositoryJDBCImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getSortedUsers(String field) {
+    public List<User> getSortedUsersByEmail() {
         return null;
     }
+
 
     @Override
     public List<User> getLimitedUsers(String limit) {
@@ -159,9 +156,10 @@ public class UserRepositoryJDBCImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getSortedUsersNA(String field) {
+    public List<User> getSortedUsersByEmailNA() {
         return null;
     }
+
 
     @Override
     public List<User> getLimitedUsersNA(String limit) {

@@ -126,9 +126,10 @@ public class UserRepositoryJPAImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getSortedUsers(String field) {
+    public List<User> getSortedUsersByEmail() {
         return null;
     }
+
 
     @Override
     public List<User> getLimitedUsers(String limit) {
@@ -151,9 +152,10 @@ public class UserRepositoryJPAImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getSortedUsersNA(String field) {
+    public List<User> getSortedUsersByEmailNA() {
         return null;
     }
+
 
     @Override
     public List<User> getLimitedUsersNA(String limit) {

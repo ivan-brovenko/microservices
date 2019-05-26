@@ -1,5 +1,6 @@
 package com.istore.mysqldbservice.repository.mondo;
 
+import com.istore.mysqldbservice.model.Role;
 import com.istore.mysqldbservice.model.User;
 import com.istore.mysqldbservice.repository.UserRepository;
 import com.mongodb.MongoClient;
@@ -16,9 +17,14 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 
 @Repository
@@ -28,6 +34,12 @@ public class UserRepositoryMongo implements UserRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private MongoClient mongoClient;
+
+    @Autowired
+    private MongoCollection mongoCollection;
+
     @Override
     public User findUserByEmailAndPassword(String email, String password) {
         return null;
@@ -35,7 +47,11 @@ public class UserRepositoryMongo implements UserRepository {
 
     @Override
     public User save(User user) {
-        return mongoTemplate.save(user);
+
+        Document document = new Document("email",user.getEmail()).append("password",user.getPassword())
+                .append("username",user.getUsername());
+        mongoCollection.insertOne(document);
+        return user;
     }
 
     @Override
@@ -95,8 +111,9 @@ public class UserRepositoryMongo implements UserRepository {
     }
 
     @Override
-    public Document groupBy(String field) {
-        GroupOperation groupByStateAndSumPop = group(field);
+    public Document groupBy(String emailValue) {
+        GroupOperation groupByStateAndSumPop = group("email").count().as("count");
+//        MatchOperation filterStates = match(new Criteria("email").regex(Pattern.compile("\\d+@" + emailValue)));
         Aggregation aggregation = newAggregation(groupByStateAndSumPop);
         AggregationResults<User> result =
                 mongoTemplate.aggregate(aggregation, "user", User.class);
@@ -105,8 +122,8 @@ public class UserRepositoryMongo implements UserRepository {
     }
 
     @Override
-    public List<User> getSortedUsers(String field) {
-        SortOperation sortByAvgPopAsc = sort(new Sort(Sort.Direction.ASC, field));
+    public List<User> getSortedUsersByEmail() {
+        SortOperation sortByAvgPopAsc = sort(new Sort(Sort.Direction.ASC, "email"));
         Aggregation aggregation = newAggregation(sortByAvgPopAsc);
         AggregationResults<User> result =
                 mongoTemplate.aggregate(aggregation, "user", User.class);
@@ -115,7 +132,7 @@ public class UserRepositoryMongo implements UserRepository {
 
     @Override
     public List<User> getLimitedUsers(String limit) {
-        LimitOperation limitToOnlyFirstDoc = limit(1);
+        LimitOperation limitToOnlyFirstDoc = limit(Long.parseLong(limit));
         Aggregation aggregation = newAggregation(limitToOnlyFirstDoc);
         AggregationResults<User> result =
                 mongoTemplate.aggregate(aggregation, "user", User.class);
@@ -130,7 +147,14 @@ public class UserRepositoryMongo implements UserRepository {
 
     @Override
     public List<User> getUsersInfoWithoutRolesNA() {
-        return null;
+        return findAll().stream().map(user -> {
+            User user1 = new User();
+            user1.setEmail(user.getEmail());
+            user1.setUsername(user.getUsername());
+            user1.setPassword(user.getPassword());
+            user1.setPhone(user.getPhone());
+            return user1;
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -143,12 +167,25 @@ public class UserRepositoryMongo implements UserRepository {
 
     @Override
     public Document groupByNA(String field) {
-        return null;
+        Map<String, List<User>> users = findAll().stream()
+                .collect(groupingBy(User::getEmail));
+        Map<String,Integer> newMap = new HashMap<>();
+        users.entrySet().forEach(user-> {
+            newMap.put(user.getKey(),user.getValue().size());
+        });
+
+
+        Document document = new Document();
+                document.putAll(newMap);
+
+        return document ;
     }
 
     @Override
-    public List<User> getSortedUsersNA(String field) {
-        return null;
+    public List<User> getSortedUsersByEmailNA() {
+        List<User> all = findAll();
+        all.sort(Comparator.comparing(User::getEmail));
+        return all;
     }
 
 
