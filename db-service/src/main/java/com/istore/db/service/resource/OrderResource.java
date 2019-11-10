@@ -13,9 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/istore/orders")
 public class OrderResource {
+    private OrderRepository orderRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
+    public void setOrderRepository(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Order> getAllOrders() {

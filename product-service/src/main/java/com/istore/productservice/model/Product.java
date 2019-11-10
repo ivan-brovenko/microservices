@@ -1,29 +1,17 @@
-package com.istore.db.service.model;
+package com.istore.productservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
 public class Product {
-
-    @Id
     private Long id;
     private String name;
     private BigDecimal price;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "product")
     @JsonIgnore
     private Set<Order> orders;
 

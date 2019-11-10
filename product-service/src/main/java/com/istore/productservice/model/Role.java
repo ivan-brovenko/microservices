@@ -1,21 +1,14 @@
-package com.istore.db.service.model;
+package com.istore.productservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
 public class Role {
-
-    @Id
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "role")
     @JsonIgnore
     private Set<User> userSet;
 

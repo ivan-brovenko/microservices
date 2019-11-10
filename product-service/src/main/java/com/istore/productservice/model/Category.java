@@ -1,23 +1,16 @@
-package com.istore.db.service.model;
+package com.istore.productservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-public class Role {
-
-    @Id
+public class Category {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "role")
     @JsonIgnore
-    private Set<User> userSet;
+    private Set<Product> products;
 
     public Long getId() {
         return id;
@@ -35,34 +28,35 @@ public class Role {
         this.name = name;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
+    public Set<Product> getProducts() {
+        return products;
     }
 
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return Objects.equals(id, role.id) &&
-                Objects.equals(name, role.name) &&
-                Objects.equals(userSet, role.userSet);
+        Category category = (Category) o;
+        return Objects.equals(id, category.id) &&
+                Objects.equals(name, category.name) &&
+                Objects.equals(products, category.products);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, userSet);
+        return Objects.hash(id, name, products);
     }
 
     @Override
     public String toString() {
-        return "Role{" +
+        return "Category{" +
                 "id=" + id +
-                ", name='" + name +
+                ", name='" + name + '\'' +
+                ", products=" + products +
                 '}';
     }
 }

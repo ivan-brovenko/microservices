@@ -1,28 +1,13 @@
-package com.istore.db.service.model;
+package com.istore.productservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import java.util.Objects;
 
-@Entity
-@Table(name = "user_product")
 @JsonIgnoreProperties(value = {"user", "product"})
 public class Order {
-
-    @Id
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_email", nullable = false)
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     public Long getId() {

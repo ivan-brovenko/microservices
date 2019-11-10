@@ -1,29 +1,17 @@
-package com.istore.db.service.model;
+package com.istore.productservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
 public class User {
-
-    @Id
     private Long id;
     private String email;
     private String username;
     private String password;
-
-    @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Order> orderSet;
 

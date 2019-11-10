@@ -13,9 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/istore/categories")
 public class ProductCategoryResource {
+    private CategoryRepository categoryRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Category> getAllCategories() {
