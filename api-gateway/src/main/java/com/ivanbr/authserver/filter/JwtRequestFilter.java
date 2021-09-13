@@ -54,7 +54,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private void setAuthentication(HttpServletRequest request) {
         Optional<String> authorizationHeaderOptional = Optional.ofNullable(request.getHeader("Authorization"));
 
-        authorizationHeaderOptional.filter(header -> header.contains("Bearer ")).ifPresent(header -> {
+        authorizationHeaderOptional.filter(header -> header.contains("Bearer_")).ifPresent(header -> {
             String jwt = header.substring(7);
             if (jwtProvider.isTokenValid(jwt) && isAuthenticationEmpty()) {
                 String username = jwtProvider.extractUsername(jwt);
