@@ -1,6 +1,3 @@
-spring:
-  application:
-    name: api-gateway
 server:
   port: 8081
 
@@ -18,9 +15,24 @@ zuul:
       path: /api/v1/users/**
       url: http://localhost:8082/users
 
-security:
-  jwt:
-    token:
-      secret-key: secret
-      expiration: 60000
+
+
+spring:
+  application:
+    name: api-gateway
+  security:
+    oauth2:
+      client:
+        registration:
+          google-client-1:
+            client-id: 429346083756-9b0s12cb66emanu16nf165kdpng3mbur.apps.googleusercontent.com
+            client-secret: 5j6LO6pYVfbIWuDPp9PEERrB
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8081/login
+            scope: openid,email,profile
+            provider: google-client-1
+        provider:
+          google-client-1:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+            token-uri: https://www.googleapis.com/oauth2/v4/token
 

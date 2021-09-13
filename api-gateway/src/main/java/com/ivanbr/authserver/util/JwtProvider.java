@@ -18,10 +18,10 @@ public class JwtProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtProvider.class);
     private static final String ROLES_KEY = "roles";
 
-    @Value("${security.jwt.token.secret-key}")
+    @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey;
 
-    @Value("${security.jwt.token.expiration}")
+    @Value("${security.jwt.token.expiration:6000000}")
     private Long expirationInMilliseconds;
 
     public String createToken(String username) {
